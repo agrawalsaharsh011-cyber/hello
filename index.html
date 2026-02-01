@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    font-family:Segoe UI,sans-serif;
+    overflow:hidden;
+    position:relative;
+}
+.center{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:white;
+    z-index:2;
+}
+h1{font-size:2.8rem;margin-bottom:10px;}
+p{font-size:1.3rem;margin-bottom:25px;}
+button{
+    font-size:1.4rem;
+    padding:15px 40px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    margin:10px;
+}
+#yesBtn{
+    background:#ff1e56;
+    color:white;
+}
+
+/* NO button moves freely on page */
+#noBtn{
+    background:white;
+    color:#ff1e56;
+    position:fixed;
+    left:60%;
+    top:65%;
+    z-index:5;
+}
+
+/* Popup */
+.popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    background:white;
+    color:#ff1e56;
+    padding:35px;
+    border-radius:20px;
+    text-align:center;
+    font-size:1.25rem;
+    box-shadow:0 20px 40px rgba(0,0,0,.3);
+    z-index:10;
+    transition:.4s;
+}
+.popup.show{
+    transform:translate(-50%,-50%) scale(1);
+}
+
+/* Hearts */
+.heart{
+    position:fixed;
+    font-size:20px;
+    top:-20px;
+    animation:fall 4s linear;
+    z-index:1;
+}
+@keyframes fall{
+    to{transform:translateY(110vh) rotate(360deg);}
+}
+
+/* Stars */
+.star{
+    position:fixed;
+    font-size:24px;
+    animation:float 3s ease-in-out;
+    z-index:1;
+}
+@keyframes float{
+    to{transform:translateY(-140px);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="center">
+    <h1>Will you be my Valentine? 💘</h1>
+    <p>I promise lots of smiles & happiness 😌</p>
+    <button id="yesBtn">Yes ❤️</button>
+</div>
+
+<button id="noBtn">No 🙈</button>
+
+<div class="popup" id="popup">
+🎉 Yaaay! 🎉<br><br>
+Now that you have officially signed up for it 💖<br>
+Keep your excitement up for <b>12th Feb</b> ✨
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const popup = document.getElementById("popup");
+
+function moveNo(){
+    const pad = 20;
+    const maxX = window.innerWidth - noBtn.offsetWidth - pad;
+    const maxY = window.innerHeight - noBtn.offsetHeight - pad;
+    noBtn.style.left = Math.random()*maxX + "px";
+    noBtn.style.top  = Math.random()*maxY + "px";
+}
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+let started = false;
+
+yesBtn.addEventListener("click", ()=>{
+    if(started) return;
+    started = true;
+
+    popup.classList.add("show");
+
+    /* LOTS of hearts */
+    setInterval(()=>{
+        for(let i=0;i<40;i++){        // ↑ increased hearts
+            const h = document.createElement("div");
+            h.className = "heart";
+            h.innerHTML = "💖";
+            h.style.left = Math.random()*100 + "vw";
+            h.style.fontSize = (16 + Math.random()*24) + "px";
+            document.body.appendChild(h);
+            setTimeout(()=>h.remove(),4000);
+        }
+    },400);
+
+    /* MORE stars */
+    setInterval(()=>{
+        for(let i=0;i<18;i++){        // ↑ increased stars
+            const s = document.createElement("div");
+            s.className = "star";
+            s.innerHTML = "✨";
+            s.style.left = Math.random()*100 + "vw";
+            s.style.top  = Math.random()*100 + "vh";
+            document.body.appendChild(s);
+            setTimeout(()=>s.remove(),3000);
+        }
+    },600);
+});
+</script>
+
+</body>
+</html>
